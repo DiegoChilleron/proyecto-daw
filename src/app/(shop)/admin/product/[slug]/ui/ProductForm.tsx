@@ -2,8 +2,7 @@
 
 import { createUpdateProduct, deleteProductImage } from "@/actions";
 import { ProductImage } from "@/components";
-import { Category, Product, ProductImage as ProductWithImage } from "@/interfaces";
-import clsx from "clsx";
+import { Category, Product, ProductImage as ProductWithImage, TemplateType } from "@/interfaces";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -13,19 +12,19 @@ interface Props {
     categories: Category[];
 }
 
-const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
-
+const templateTypes: TemplateType[] = ['corporate', 'portfolio', 'landing', 'blog', 'ecommerce'];
 
 interface FormInputs {
     title: string;
     slug: string;
     description: string;
     price: number;
-    inStock: number;
-    sizes: string[];
     tags: string;
-    gender: 'men' | 'women' | 'kid' | 'unisex';
+    templateType: TemplateType;
     categoryId: string;
+    demoUrl?: string;
+    features: string;
+    formFields?: string;
 
     images?: FileList;
 }
@@ -35,26 +34,16 @@ export const ProductForm = ({ product, categories }: Props) => {
     const router = useRouter();
 
     const {
-        handleSubmit, register, formState: { isValid }, getValues, setValue, watch
+        handleSubmit, register, formState: { isValid }
     } = useForm<FormInputs>({
         defaultValues: {
             ...product,
             tags: product.tags?.join(', '),
-            sizes: product.sizes ?? [],
-
+            features: product.features?.join(', ') ?? '',
+            formFields: product.formFields ? JSON.stringify(product.formFields, null, 2) : '[]',
             images: undefined,
         },
     });
-
-    watch('sizes');
-
-    const onSizeChanged = (size: string) => {
-
-        const sizes = new Set(getValues('sizes'));
-        sizes.has(size) ? sizes.delete(size) : sizes.add(size);
-        setValue('sizes', Array.from(sizes));
-
-    };
 
 
     const onSubmit = async (data: FormInputs) => {
@@ -62,16 +51,17 @@ export const ProductForm = ({ product, categories }: Props) => {
         const { images, ...productToSave } = data;
 
         const formData = new FormData();
-        if (product.id) {formData.append('id', product.id ?? '')};
+        if (product.id) { formData.append('id', product.id ?? '') };
         formData.append('title', productToSave.title);
         formData.append('slug', productToSave.slug);
         formData.append('description', productToSave.description);
         formData.append('price', productToSave.price.toString());
-        formData.append('inStock', productToSave.inStock.toString());
-        formData.append('sizes', productToSave.sizes.toString());
         formData.append('tags', productToSave.tags);
+        formData.append('templateType', productToSave.templateType);
         formData.append('categoryId', productToSave.categoryId);
-        formData.append('gender', productToSave.gender);
+        if (productToSave.demoUrl) formData.append('demoUrl', productToSave.demoUrl);
+        formData.append('features', productToSave.features);
+        if (productToSave.formFields) formData.append('formFields', productToSave.formFields);
 
         if (images) {
             for (let i = 0; i < images.length; i++) {
@@ -79,7 +69,7 @@ export const ProductForm = ({ product, categories }: Props) => {
             }
         }
 
-        const { ok, product:updatedProduct } = await createUpdateProduct(formData);
+        const { ok, product: updatedProduct } = await createUpdateProduct(formData);
 
         if (!ok) {
             alert('Error al guardar el producto');
@@ -113,28 +103,27 @@ export const ProductForm = ({ product, categories }: Props) => {
                 </div>
 
                 <div className="flex flex-col mb-2">
-                    <span>Price</span>
+                    <span>Precio (€)</span>
                     <input type="number" className="p-2 rounded-md bg-gray-200" {...register('price', { required: true, min: 0 })} />
                 </div>
 
                 <div className="flex flex-col mb-2">
-                    <span>Tags</span>
+                    <span>Tags (separados por coma)</span>
                     <input type="text" className="p-2 rounded-md bg-gray-200" {...register('tags', { required: true })} />
                 </div>
 
                 <div className="flex flex-col mb-2">
-                    <span>Gender</span>
-                    <select className="p-2 rounded-md bg-gray-200">
+                    <span>Tipo de plantilla</span>
+                    <select className="p-2 rounded-md bg-gray-200" {...register('templateType', { required: true })}>
                         <option value="">[Seleccione]</option>
-                        <option value="men">Men</option>
-                        <option value="women">Women</option>
-                        <option value="kid">Kid</option>
-                        <option value="unisex">Unisex</option>
+                        {templateTypes.map(type => (
+                            <option key={type} value={type}>{type}</option>
+                        ))}
                     </select>
                 </div>
 
                 <div className="flex flex-col mb-2">
-                    <span>Categoria</span>
+                    <span>Categoría</span>
                     <select className="p-2 rounded-md bg-gray-200" {...register('categoryId', { required: true })}>
                         <option value="">[Seleccione]</option>
                         {categories.map(category => (
@@ -148,68 +137,59 @@ export const ProductForm = ({ product, categories }: Props) => {
                 </button>
             </div>
 
-            {/* Selector de tallas y fotos */}
+            {/* Campos específicos de plantillas web */}
             <div className="w-full">
 
                 <div className="flex flex-col mb-2">
-                    <span>Inventario</span>
-                    <input type="number" className="p-2 rounded-md bg-gray-200" {...register('inStock', { required: true, min: 0 })} />
+                    <span>URL de Demo</span>
+                    <input type="url" className="p-2 rounded-md bg-gray-200" {...register('demoUrl')} placeholder="https://demo.ejemplo.com" />
                 </div>
 
-                {/* As checkboxes */}
-                <div className="flex flex-col">
+                <div className="flex flex-col mb-2">
+                    <span>Características (separadas por coma)</span>
+                    <textarea
+                        rows={3}
+                        className="p-2 rounded-md bg-gray-200"
+                        {...register('features')}
+                        placeholder="Responsive, SEO optimizado, Formulario de contacto..."
+                    ></textarea>
+                </div>
 
-                    <span>Tallas</span>
-                    <div className="flex flex-wrap">
+                <div className="flex flex-col mb-2">
+                    <span>Campos del formulario (JSON)</span>
+                    <textarea
+                        rows={8}
+                        className="p-2 rounded-md bg-gray-200 font-mono text-sm"
+                        {...register('formFields')}
+                        placeholder='[{"name": "siteName", "label": "Nombre del sitio", "type": "text", "required": true}]'
+                    ></textarea>
+                </div>
 
-                        {
-                            sizes.map(size => (
+                <div className="flex flex-col mb-2">
 
-                                <div
-                                    key={size} onClick={() => onSizeChanged(size)} className={
-                                        clsx(
-                                            "p-2 rounded-md cursor-pointer mr-2 mb-2 w-14 transition-all text-center",
-                                            {
-                                                'bg-blue-500 text-white': getValues('sizes').includes(size),
-                                            }
-                                        )
-                                    }>
-                                    <span>{size}</span>
-                                </div>
-                            ))
-                        }
-
-                    </div>
-
-
-                    <div className="flex flex-col mb-2">
-
-                        <span>Fotos</span>
-                        <input
-                            type="file" multiple {...register('images')}
-                            className="p-2 rounded-md bg-gray-200"
-                            accept="image/png, image/jpeg, image/jpg, image/webp, image/avif"
-                        />
-
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-
-
-                        {
-                            product.ProductImage?.map(image => (
-
-                                <div key={image.id}>
-
-                                    <ProductImage alt={product.title ?? ''} src={image.url} width={300} height={300} className="rounded-t shadow-md" />
-                                    <button onClick={() => deleteProductImage(image.id, image.url)} type="button" className="btn-danger w-full rounded-b-xl">Eliminar</button>
-
-                                </div>
-                            ))
-                        }
-                    </div>
+                    <span>Imágenes de la plantilla</span>
+                    <input
+                        type="file" multiple {...register('images')}
+                        className="p-2 rounded-md bg-gray-200"
+                        accept="image/png, image/jpeg, image/jpg, image/webp, image/avif"
+                    />
 
                 </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {
+                        product.ProductImage?.map(image => (
+
+                            <div key={image.id}>
+
+                                <ProductImage alt={product.title ?? ''} src={image.url} width={300} height={300} className="rounded-t shadow-md" />
+                                <button onClick={() => deleteProductImage(image.id, image.url)} type="button" className="btn-danger w-full rounded-b-xl">Eliminar</button>
+
+                            </div>
+                        ))
+                    }
+                </div>
+
             </div>
 
         </form >

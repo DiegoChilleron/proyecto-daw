@@ -1,4 +1,4 @@
-import { Size } from './product.interface';
+import { DeploymentStatus, SiteConfig } from './product.interface';
 
 export interface Order {
     id: string;
@@ -20,13 +20,23 @@ export interface OrderItem {
     id: string;
     quantity: number;
     price: number;
-    size: Size;
     orderId: string;
     productId: string;
+    
+    // Configuración del sitio web
+    siteConfig: SiteConfig;
+    
+    // Estado del despliegue
+    deploymentStatus: DeploymentStatus;
+    deploymentUrl?: string | null;
+    subdomain?: string | null;  // Subdominio/directorio único en S3
+    deployedAt?: Date | null;
+    
     product?: {
         id: string;
         title: string;
         slug: string;
+        templateType: string;
         productImages?: Array<{ url: string }>;
     };
 }

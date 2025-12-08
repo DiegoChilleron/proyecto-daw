@@ -10,9 +10,10 @@ interface Props {
     
 export const ProductImage = ({ src, alt, className, width, height }: Props) => {
 
-    const localSrc = ( src)
+    const localSrc = (src)
         ? src.startsWith('http')
-        ? src : `/products/${ src }`
+            ? src 
+            : `/products/${src}`
         : '/imgs/placeholder.webp';
 
     return (

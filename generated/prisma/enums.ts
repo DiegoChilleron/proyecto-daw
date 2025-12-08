@@ -9,32 +9,31 @@
 * 🟢 You can import this file directly.
 */
 
-export const Size = {
-  XS: 'XS',
-  S: 'S',
-  M: 'M',
-  L: 'L',
-  XL: 'XL',
-  XXL: 'XXL',
-  XXXL: 'XXXL'
-} as const
-
-export type Size = (typeof Size)[keyof typeof Size]
-
-
-export const Gender = {
-  men: 'men',
-  women: 'women',
-  kid: 'kid',
-  unisex: 'unisex'
-} as const
-
-export type Gender = (typeof Gender)[keyof typeof Gender]
-
-
 export const Role = {
   Admin: 'Admin',
   User: 'User'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const TemplateType = {
+  corporate: 'corporate',
+  portfolio: 'portfolio',
+  landing: 'landing',
+  blog: 'blog',
+  ecommerce: 'ecommerce'
+} as const
+
+export type TemplateType = (typeof TemplateType)[keyof typeof TemplateType]
+
+
+export const DeploymentStatus = {
+  pending: 'pending',
+  building: 'building',
+  deploying: 'deploying',
+  deployed: 'deployed',
+  failed: 'failed'
+} as const
+
+export type DeploymentStatus = (typeof DeploymentStatus)[keyof typeof DeploymentStatus]

@@ -22,10 +22,11 @@ export const ProductsInCart = () => {
         <>
             {
                 productsInCart.map(product => (
-                    <div key={`${product.slug}-${product.size}`} className="flex mb-5">
+                    <div key={product.slug} className="flex mb-5">
                         <Image src={`/products/${product.image}`} alt={product.title} width={100} height={100} className="mr-5 rounded w-[100px] h-[100px]" />
                         <div>
-                            <span>{product.size} - {product.title} ({product.quantity})</span>
+                            <span>{product.title}</span>
+                            <p className="text-sm text-gray-500">{product.siteConfig?.siteName || 'Sin configurar'}</p>
                             <p className="font-bold">{currencyFormat(product.price * product.quantity)}</p>
                         </div>
                     </div>

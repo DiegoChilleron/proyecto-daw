@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
-import { Gender, Size } from '../../../generated/prisma/enums';
+import { TemplateType } from '../../../generated/prisma/enums';
 import { Product } from '../../../generated/prisma/client';
 import { z } from 'zod';
 import { v2 as cloudinary } from 'cloudinary';
@@ -17,11 +17,12 @@ const productSchema = z.object({
     slug: z.string().min(3).max(255),
     description: z.string(),
     price: z.coerce.number().min(0).transform(val => Number(val.toFixed(2))),
-    inStock: z.coerce.number().min(0).transform(val => Number(val.toFixed(0))),
     categoryId: z.string().uuid(),
-    sizes: z.coerce.string().transform(val => val.split(',')),
     tags: z.string(),
-    gender: z.enum(Gender),
+    templateType: z.nativeEnum(TemplateType),
+    demoUrl: z.string().url().optional().nullable(),
+    features: z.coerce.string().transform(val => val.split(',')).optional(),
+    formFields: z.string().optional(), // JSON string
 });
 
 
@@ -39,13 +40,15 @@ export const createUpdateProduct = async (formData: FormData) => {
     product.slug = product.slug.toLowerCase().replace(/ /g, '-').trim();
 
 
-    const { id, ...rest } = product;
+    const { id, formFields, features, ...rest } = product;
 
     try {
         const prismaTx = await prisma.$transaction(async (tx) => {
 
             let product: Product;
             const tagsArray = rest.tags.split(',').map(tag => tag.trim().toLowerCase());
+            const featuresArray = features?.map(f => f.trim()) ?? [];
+            const formFieldsJson = formFields ? JSON.parse(formFields) : [];
 
             if (id) {
                 // Actualizar
@@ -53,8 +56,9 @@ export const createUpdateProduct = async (formData: FormData) => {
                     where: { id },
                     data: {
                         ...rest,
-                        sizes: { set: rest.sizes as Size[] },
-                        tags: { set: tagsArray }
+                        tags: { set: tagsArray },
+                        features: { set: featuresArray },
+                        formFields: formFieldsJson,
                     }
                 });
 
@@ -63,8 +67,9 @@ export const createUpdateProduct = async (formData: FormData) => {
                 product = await prisma.product.create({
                     data: {
                         ...rest,
-                        sizes: { set: rest.sizes as Size[] },
-                        tags: { set: tagsArray }
+                        tags: { set: tagsArray },
+                        features: { set: featuresArray },
+                        formFields: formFieldsJson,
                     }
                 })
             }

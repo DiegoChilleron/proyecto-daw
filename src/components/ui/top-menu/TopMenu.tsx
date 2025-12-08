@@ -24,16 +24,17 @@ export const TopMenu = () => {
         <nav className="flex px-5 justify-between items-center w-full">
             <div>
                 <Link href="/">
-                    <span className={`${titleFont.className} antialiased font-bold`}>Teslo</span>
-                    <span> | Shop</span>
+                    <span className={`${titleFont.className} antialiased font-bold`}>WebFactory</span>
+                    <span> | Webs</span>
                 </Link>
             </div>
 
             {/* Menú central */}
             <div className="hidden sm:block">
-                <Link className="m-2 p-2 rounded-md trnsition-all hover:bg-gray-100" href="/gender/men">Hombres</Link>
-                <Link className="m-2 p-2 rounded-md trnsition-all hover:bg-gray-100" href="/gender/women">Mujeres</Link>
-                <Link className="m-2 p-2 rounded-md trnsition-all hover:bg-gray-100" href="/gender/kid">Niños</Link>
+                <Link className="m-2 p-2 rounded-md trnsition-all hover:bg-gray-100" href="/templates/corporate">Corporativas</Link>
+                <Link className="m-2 p-2 rounded-md trnsition-all hover:bg-gray-100" href="/templates/portfolio">Portfolios</Link>
+                <Link className="m-2 p-2 rounded-md trnsition-all hover:bg-gray-100" href="/templates/landing">Landing Pages</Link>
+                <Link className="m-2 p-2 rounded-md trnsition-all hover:bg-gray-100" href="/templates/blog">Blogs</Link>
             </div>
 
             {/* Busqueda, carrito, menu */}

@@ -1,7 +1,7 @@
 
 import { Product } from "@/interfaces"
-import Image from "next/image"
 import Link from "next/link";
+import { ProductImage } from "@/components/product/product-image/ProductImage";
 
 interface Props {
     product: Product;
@@ -15,13 +15,15 @@ export const ProductGridItem = ({ product }: Props) => {
 
             <Link href={`/product/${product.slug}`}>
 
-                <Image src={`/products/${product.images[0]}`}
+                <ProductImage 
+                    src={product.images[0]}
                     alt={product.title}
                     className="w-full object-cover rounded group-hover:hidden"
                     width={500}
                     height={500} />
 
-                <Image src={`/products/${product.images[1] || product.images[0]}`}
+                <ProductImage 
+                    src={product.images[1] || product.images[0]}
                     alt={product.title}
                     className="w-full object-cover rounded group-hover:block hidden"
                     width={500}

@@ -10,10 +10,10 @@ import "./legal/legal.css";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Teslo | Shop",
-    default: "Home - Teslo | Shop",
+    template: "%s - WebFactory | Creador de Webs",
+    default: "Home - WebFactory | Creador de Webs",
   },
-  description: "Una tienda virtual de productos",
+  description: "Crea tu web estática profesional en minutos. Plantillas de webs corporativas, portfolios, landing pages y más.",
 };
 
 export default function RootLayout({

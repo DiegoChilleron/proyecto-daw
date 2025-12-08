@@ -1,9 +1,7 @@
 'use client';
 
-import { SizeSelector, QuantitySelector } from "@/components";
-import type { CartProduct, Product, Size } from "@/interfaces";
-import { useCartStore } from "@/store";
-import { useState } from "react";
+import type { Product } from "@/interfaces";
+import { useRouter } from "next/navigation";
 
 interface Props {
     product: Product;
@@ -11,50 +9,19 @@ interface Props {
 
 export const AddToCart = ({ product }: Props) => {
 
+    const router = useRouter();
 
-    const addProductToCart = useCartStore(state => state.addProductToCart);
-
-    const [size, setSize] = useState<Size | undefined>();
-    const [quantity, setQuantity] = useState<number>(1);
-    const [posted, setPosted] = useState<boolean>(false);
-
-    const addToCart = () => {
-
-        setPosted(true);
-
-        if (!size) return;
-
-        const cartProduct: CartProduct = {
-            id: product.id,
-            slug: product.slug,
-            title: product.title,
-            price: product.price,
-            quantity,
-            size,
-            image: product.images[0],
-        }
-        addProductToCart(cartProduct)
-        setPosted(false);
-        setQuantity(1);
-        setSize(undefined);
+    const handleConfigure = () => {
+        // Redirigir al formulario de configuración
+        router.push(`/checkout/configure/${product.slug}`);
     }
 
     return (
-
         <>
-            {posted && !size && (
-                <span className="mt-2 text-sm text-red-500 fade-in">Debe de selecionar una talla*</span>
-            )}
-
-            {/* Selector de tallas */}
-            <SizeSelector selectedSize={size} availableSizes={product.sizes} onSizeChanged={setSize} />
-
-            {/*Selector de cantidad */}
-            <QuantitySelector quantity={quantity} onQuantityChanged={setQuantity} />
-
             {/*Boton */}
-            <button onClick={addToCart} className="btn-primary my-5">Agregar al carrito</button>
+            <button onClick={handleConfigure} className="btn-primary my-5">
+                Configurar mi web
+            </button>
         </>
-
     )
 }

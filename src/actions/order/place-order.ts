@@ -1,6 +1,6 @@
 'use server';
 
-import { Address, Size } from '@/interfaces';
+import { Address, SiteConfig } from '@/interfaces';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import prisma from '@/lib/prisma';
@@ -9,7 +9,7 @@ import prisma from '@/lib/prisma';
 interface ProductToOrder {
     productId: string;
     quantity: number;
-    size: Size;
+    siteConfig: SiteConfig;
 }
 
 
@@ -64,40 +64,9 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address)
     try {
         const prismaTx = await prisma.$transaction(async (tx) => {
 
-            // 1. Actualizar el stock de los productos
+            // Las plantillas web no tienen stock - se pueden vender ilimitadamente
 
-            const updatedProductsPromises = products.map(async (product) => {
-                // Acumular los valores
-                const productQuantity = productIds.filter(
-                    p => p.productId === product.id
-                ).reduce((acc, item) => acc + item.quantity, 0);
-
-                if (productQuantity === 0) {
-                    throw new Error(`${product.id} no tiene cantidad definida`);
-                }
-
-                return tx.product.update({
-                    where: { id: product.id },
-                    data: {
-                        // inStock: product.inStock - productQuantity // forma incorrecta
-                        inStock: {
-                            decrement: productQuantity
-                        }
-                    }
-                });
-            });
-
-
-            const updatedProducts = await Promise.all(updatedProductsPromises);
-
-            // Verificar valores negativos en las existencias = no hay stock
-            updatedProducts.forEach(product => {
-                if (product.inStock < 0) {
-                    throw new Error(`No hay suficiente stock de ${product.title}`);
-                }
-            });
-
-            // 2. Crear la orden - Encabezado - Detalles
+            // 1. Crear la orden - Encabezado - Detalles
             const order = await tx.order.create({
                 data: {
                     userId: userId,
@@ -110,7 +79,7 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address)
                         createMany: {
                             data: productIds.map(p => ({
                                 quantity: p.quantity,
-                                size: p.size,
+                                siteConfig: p.siteConfig,
                                 productId: p.productId,
                                 price: products.find(product => product.id === p.productId)?.price ?? 0,
                             }))

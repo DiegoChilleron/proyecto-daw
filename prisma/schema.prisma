@@ -9,26 +9,25 @@ datasource db {
 
 // Enums
 
-enum Size {
-  XS
-  S
-  M
-  L
-  XL
-  XXL
-  XXXL
-}
-
-enum Gender {
-  men
-  women
-  kid
-  unisex
-}
-
 enum Role {
   Admin
   User
+}
+
+enum TemplateType {
+  corporate    // Web corporativa
+  portfolio    // Portfolio personal
+  landing      // Landing page
+  blog         // Blog
+  ecommerce    // Tienda online básica
+}
+
+enum DeploymentStatus {
+  pending      // Pendiente de pago
+  building     // Compilando Next.js
+  deploying    // Desplegando a S3
+  deployed     // Desplegado correctamente
+  failed       // Error en el proceso
 }
 
 // Models
@@ -36,20 +35,25 @@ enum Role {
 model Category {
   id       String    @id @default(uuid())
   name     String    @unique
-  // ??
   products Product[]
 }
 
+// Producto = Plantilla de web
 model Product {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   title       String
   description String
-  inStock     Int
-  price       Float    @default(0)
-  sizes       Size[]   @default([])
-  slug        String   @unique
-  tags        String[] @default([])
-  gender      Gender
+  price       Float        @default(0)
+  slug        String       @unique
+  tags        String[]     @default([])
+  templateType TemplateType
+
+  // Campos específicos para plantillas web
+  demoUrl     String?      // URL de demo de la plantilla
+  features    String[]     @default([]) // Características: responsive, SEO, etc.
+  
+  // Campos del formulario requeridos para esta plantilla (JSON schema)
+  formFields  Json         @default("[]")
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
@@ -57,7 +61,7 @@ model Product {
   productImages ProductImage[]
   orderItems    OrderItem[]
 
-  @@index([gender])
+  @@index([templateType])
 }
 
 model ProductImage {
@@ -136,9 +140,18 @@ model Order {
 
 model OrderItem {
   id       String @id @default(uuid())
-  quantity Int
+  quantity Int    @default(1)
   price    Float
-  size     Size
+
+  // Configuración del cliente para esta web (datos del formulario)
+  siteConfig Json  // Datos del formulario: nombre empresa, colores, textos, etc.
+
+  // Estado del despliegue
+  deploymentStatus DeploymentStatus @default(pending)
+  deploymentUrl    String?          // URL final del sitio desplegado
+  subdomain        String?          @unique // Subdominio/directorio único en S3
+  
+  deployedAt       DateTime?
 
   order   Order  @relation(fields: [orderId], references: [id])
   orderId String

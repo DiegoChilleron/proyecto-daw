@@ -2,7 +2,7 @@ export const revalidate = 10080; // 7 days
 
 import { notFound } from "next/navigation";
 import { titleFont } from "@/config/fonts";
-import { ProductSlideshow, ProductMobileSlideshow, StockLabel } from "@/components";
+import { ProductSlideshow, ProductMobileSlideshow } from "@/components";
 import { getProductBySlug } from "@/actions";
 import { Metadata, ResolvingMetadata } from "next";
 import { AddToCart } from "./ui/AddToCart";
@@ -51,7 +51,6 @@ export default async function ProductBySlugPage({ params }: Props) {
 
       {/* Detalles del producto */}
       <div className="col-span-1 px-5">
-        <StockLabel slug={product.slug} />
         <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>{product.title}</h1>
         <p className="text-lg mb-5">{product.price} €</p>
 

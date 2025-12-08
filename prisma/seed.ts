@@ -26,12 +26,13 @@ const productData: Prisma.ProductCreateInput[] = initialData.products.map(
     (product) => ({
         title: product.title,
         description: product.description,
-        inStock: product.inStock,
         price: product.price,
-        sizes: product.sizes,
         slug: product.slug,
         tags: product.tags,
-        gender: product.gender,
+        templateType: product.templateType,
+        demoUrl: product.demoUrl,
+        features: product.features,
+        formFields: product.formFields,
         category: {
             connectOrCreate: {
                 where: { name: product.type },

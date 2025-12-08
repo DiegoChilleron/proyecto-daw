@@ -40,7 +40,10 @@ export type OrderItemMinAggregateOutputType = {
   id: string | null
   quantity: number | null
   price: number | null
-  size: $Enums.Size | null
+  deploymentStatus: $Enums.DeploymentStatus | null
+  deploymentUrl: string | null
+  subdomain: string | null
+  deployedAt: Date | null
   orderId: string | null
   productId: string | null
 }
@@ -49,7 +52,10 @@ export type OrderItemMaxAggregateOutputType = {
   id: string | null
   quantity: number | null
   price: number | null
-  size: $Enums.Size | null
+  deploymentStatus: $Enums.DeploymentStatus | null
+  deploymentUrl: string | null
+  subdomain: string | null
+  deployedAt: Date | null
   orderId: string | null
   productId: string | null
 }
@@ -58,7 +64,11 @@ export type OrderItemCountAggregateOutputType = {
   id: number
   quantity: number
   price: number
-  size: number
+  siteConfig: number
+  deploymentStatus: number
+  deploymentUrl: number
+  subdomain: number
+  deployedAt: number
   orderId: number
   productId: number
   _all: number
@@ -79,7 +89,10 @@ export type OrderItemMinAggregateInputType = {
   id?: true
   quantity?: true
   price?: true
-  size?: true
+  deploymentStatus?: true
+  deploymentUrl?: true
+  subdomain?: true
+  deployedAt?: true
   orderId?: true
   productId?: true
 }
@@ -88,7 +101,10 @@ export type OrderItemMaxAggregateInputType = {
   id?: true
   quantity?: true
   price?: true
-  size?: true
+  deploymentStatus?: true
+  deploymentUrl?: true
+  subdomain?: true
+  deployedAt?: true
   orderId?: true
   productId?: true
 }
@@ -97,7 +113,11 @@ export type OrderItemCountAggregateInputType = {
   id?: true
   quantity?: true
   price?: true
-  size?: true
+  siteConfig?: true
+  deploymentStatus?: true
+  deploymentUrl?: true
+  subdomain?: true
+  deployedAt?: true
   orderId?: true
   productId?: true
   _all?: true
@@ -193,7 +213,11 @@ export type OrderItemGroupByOutputType = {
   id: string
   quantity: number
   price: number
-  size: $Enums.Size
+  siteConfig: runtime.JsonValue
+  deploymentStatus: $Enums.DeploymentStatus
+  deploymentUrl: string | null
+  subdomain: string | null
+  deployedAt: Date | null
   orderId: string
   productId: string
   _count: OrderItemCountAggregateOutputType | null
@@ -225,7 +249,11 @@ export type OrderItemWhereInput = {
   id?: Prisma.StringFilter<"OrderItem"> | string
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   price?: Prisma.FloatFilter<"OrderItem"> | number
-  size?: Prisma.EnumSizeFilter<"OrderItem"> | $Enums.Size
+  siteConfig?: Prisma.JsonFilter<"OrderItem">
+  deploymentStatus?: Prisma.EnumDeploymentStatusFilter<"OrderItem"> | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.StringNullableFilter<"OrderItem"> | string | null
+  subdomain?: Prisma.StringNullableFilter<"OrderItem"> | string | null
+  deployedAt?: Prisma.DateTimeNullableFilter<"OrderItem"> | Date | string | null
   orderId?: Prisma.StringFilter<"OrderItem"> | string
   productId?: Prisma.StringFilter<"OrderItem"> | string
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
@@ -236,7 +264,11 @@ export type OrderItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  size?: Prisma.SortOrder
+  siteConfig?: Prisma.SortOrder
+  deploymentStatus?: Prisma.SortOrder
+  deploymentUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  subdomain?: Prisma.SortOrderInput | Prisma.SortOrder
+  deployedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   orderId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   order?: Prisma.OrderOrderByWithRelationInput
@@ -245,23 +277,31 @@ export type OrderItemOrderByWithRelationInput = {
 
 export type OrderItemWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  subdomain?: string
   AND?: Prisma.OrderItemWhereInput | Prisma.OrderItemWhereInput[]
   OR?: Prisma.OrderItemWhereInput[]
   NOT?: Prisma.OrderItemWhereInput | Prisma.OrderItemWhereInput[]
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   price?: Prisma.FloatFilter<"OrderItem"> | number
-  size?: Prisma.EnumSizeFilter<"OrderItem"> | $Enums.Size
+  siteConfig?: Prisma.JsonFilter<"OrderItem">
+  deploymentStatus?: Prisma.EnumDeploymentStatusFilter<"OrderItem"> | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.StringNullableFilter<"OrderItem"> | string | null
+  deployedAt?: Prisma.DateTimeNullableFilter<"OrderItem"> | Date | string | null
   orderId?: Prisma.StringFilter<"OrderItem"> | string
   productId?: Prisma.StringFilter<"OrderItem"> | string
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
-}, "id">
+}, "id" | "subdomain">
 
 export type OrderItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  size?: Prisma.SortOrder
+  siteConfig?: Prisma.SortOrder
+  deploymentStatus?: Prisma.SortOrder
+  deploymentUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  subdomain?: Prisma.SortOrderInput | Prisma.SortOrder
+  deployedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   orderId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   _count?: Prisma.OrderItemCountOrderByAggregateInput
@@ -278,25 +318,37 @@ export type OrderItemScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
   quantity?: Prisma.IntWithAggregatesFilter<"OrderItem"> | number
   price?: Prisma.FloatWithAggregatesFilter<"OrderItem"> | number
-  size?: Prisma.EnumSizeWithAggregatesFilter<"OrderItem"> | $Enums.Size
+  siteConfig?: Prisma.JsonWithAggregatesFilter<"OrderItem">
+  deploymentStatus?: Prisma.EnumDeploymentStatusWithAggregatesFilter<"OrderItem"> | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.StringNullableWithAggregatesFilter<"OrderItem"> | string | null
+  subdomain?: Prisma.StringNullableWithAggregatesFilter<"OrderItem"> | string | null
+  deployedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"OrderItem"> | Date | string | null
   orderId?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
   productId?: Prisma.StringWithAggregatesFilter<"OrderItem"> | string
 }
 
 export type OrderItemCreateInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   order: Prisma.OrderCreateNestedOneWithoutOrderItemsInput
   product: Prisma.ProductCreateNestedOneWithoutOrderItemsInput
 }
 
 export type OrderItemUncheckedCreateInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   orderId: string
   productId: string
 }
@@ -305,7 +357,11 @@ export type OrderItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order?: Prisma.OrderUpdateOneRequiredWithoutOrderItemsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutOrderItemsNestedInput
 }
@@ -314,16 +370,24 @@ export type OrderItemUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type OrderItemCreateManyInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   orderId: string
   productId: string
 }
@@ -332,14 +396,22 @@ export type OrderItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type OrderItemUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -358,7 +430,11 @@ export type OrderItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  size?: Prisma.SortOrder
+  siteConfig?: Prisma.SortOrder
+  deploymentStatus?: Prisma.SortOrder
+  deploymentUrl?: Prisma.SortOrder
+  subdomain?: Prisma.SortOrder
+  deployedAt?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
 }
@@ -372,7 +448,10 @@ export type OrderItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  size?: Prisma.SortOrder
+  deploymentStatus?: Prisma.SortOrder
+  deploymentUrl?: Prisma.SortOrder
+  subdomain?: Prisma.SortOrder
+  deployedAt?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
 }
@@ -381,7 +460,10 @@ export type OrderItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   price?: Prisma.SortOrder
-  size?: Prisma.SortOrder
+  deploymentStatus?: Prisma.SortOrder
+  deploymentUrl?: Prisma.SortOrder
+  subdomain?: Prisma.SortOrder
+  deployedAt?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
 }
@@ -475,23 +557,31 @@ export type OrderItemUncheckedUpdateManyWithoutOrderNestedInput = {
   deleteMany?: Prisma.OrderItemScalarWhereInput | Prisma.OrderItemScalarWhereInput[]
 }
 
-export type EnumSizeFieldUpdateOperationsInput = {
-  set?: $Enums.Size
+export type EnumDeploymentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.DeploymentStatus
 }
 
 export type OrderItemCreateWithoutProductInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   order: Prisma.OrderCreateNestedOneWithoutOrderItemsInput
 }
 
 export type OrderItemUncheckedCreateWithoutProductInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   orderId: string
 }
 
@@ -528,24 +618,36 @@ export type OrderItemScalarWhereInput = {
   id?: Prisma.StringFilter<"OrderItem"> | string
   quantity?: Prisma.IntFilter<"OrderItem"> | number
   price?: Prisma.FloatFilter<"OrderItem"> | number
-  size?: Prisma.EnumSizeFilter<"OrderItem"> | $Enums.Size
+  siteConfig?: Prisma.JsonFilter<"OrderItem">
+  deploymentStatus?: Prisma.EnumDeploymentStatusFilter<"OrderItem"> | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.StringNullableFilter<"OrderItem"> | string | null
+  subdomain?: Prisma.StringNullableFilter<"OrderItem"> | string | null
+  deployedAt?: Prisma.DateTimeNullableFilter<"OrderItem"> | Date | string | null
   orderId?: Prisma.StringFilter<"OrderItem"> | string
   productId?: Prisma.StringFilter<"OrderItem"> | string
 }
 
 export type OrderItemCreateWithoutOrderInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   product: Prisma.ProductCreateNestedOneWithoutOrderItemsInput
 }
 
 export type OrderItemUncheckedCreateWithoutOrderInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   productId: string
 }
 
@@ -577,9 +679,13 @@ export type OrderItemUpdateManyWithWhereWithoutOrderInput = {
 
 export type OrderItemCreateManyProductInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   orderId: string
 }
 
@@ -587,7 +693,11 @@ export type OrderItemUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order?: Prisma.OrderUpdateOneRequiredWithoutOrderItemsNestedInput
 }
 
@@ -595,7 +705,11 @@ export type OrderItemUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -603,15 +717,23 @@ export type OrderItemUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type OrderItemCreateManyOrderInput = {
   id?: string
-  quantity: number
+  quantity?: number
   price: number
-  size: $Enums.Size
+  siteConfig: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: $Enums.DeploymentStatus
+  deploymentUrl?: string | null
+  subdomain?: string | null
+  deployedAt?: Date | string | null
   productId: string
 }
 
@@ -619,7 +741,11 @@ export type OrderItemUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product?: Prisma.ProductUpdateOneRequiredWithoutOrderItemsNestedInput
 }
 
@@ -627,7 +753,11 @@ export type OrderItemUncheckedUpdateWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -635,7 +765,11 @@ export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.FloatFieldUpdateOperationsInput | number
-  size?: Prisma.EnumSizeFieldUpdateOperationsInput | $Enums.Size
+  siteConfig?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deploymentStatus?: Prisma.EnumDeploymentStatusFieldUpdateOperationsInput | $Enums.DeploymentStatus
+  deploymentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subdomain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deployedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   productId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -645,7 +779,11 @@ export type OrderItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   quantity?: boolean
   price?: boolean
-  size?: boolean
+  siteConfig?: boolean
+  deploymentStatus?: boolean
+  deploymentUrl?: boolean
+  subdomain?: boolean
+  deployedAt?: boolean
   orderId?: boolean
   productId?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
@@ -656,7 +794,11 @@ export type OrderItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   quantity?: boolean
   price?: boolean
-  size?: boolean
+  siteConfig?: boolean
+  deploymentStatus?: boolean
+  deploymentUrl?: boolean
+  subdomain?: boolean
+  deployedAt?: boolean
   orderId?: boolean
   productId?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
@@ -667,7 +809,11 @@ export type OrderItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   quantity?: boolean
   price?: boolean
-  size?: boolean
+  siteConfig?: boolean
+  deploymentStatus?: boolean
+  deploymentUrl?: boolean
+  subdomain?: boolean
+  deployedAt?: boolean
   orderId?: boolean
   productId?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
@@ -678,12 +824,16 @@ export type OrderItemSelectScalar = {
   id?: boolean
   quantity?: boolean
   price?: boolean
-  size?: boolean
+  siteConfig?: boolean
+  deploymentStatus?: boolean
+  deploymentUrl?: boolean
+  subdomain?: boolean
+  deployedAt?: boolean
   orderId?: boolean
   productId?: boolean
 }
 
-export type OrderItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quantity" | "price" | "size" | "orderId" | "productId", ExtArgs["result"]["orderItem"]>
+export type OrderItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quantity" | "price" | "siteConfig" | "deploymentStatus" | "deploymentUrl" | "subdomain" | "deployedAt" | "orderId" | "productId", ExtArgs["result"]["orderItem"]>
 export type OrderItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -707,7 +857,11 @@ export type $OrderItemPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     quantity: number
     price: number
-    size: $Enums.Size
+    siteConfig: runtime.JsonValue
+    deploymentStatus: $Enums.DeploymentStatus
+    deploymentUrl: string | null
+    subdomain: string | null
+    deployedAt: Date | null
     orderId: string
     productId: string
   }, ExtArgs["result"]["orderItem"]>
@@ -1138,7 +1292,11 @@ export interface OrderItemFieldRefs {
   readonly id: Prisma.FieldRef<"OrderItem", 'String'>
   readonly quantity: Prisma.FieldRef<"OrderItem", 'Int'>
   readonly price: Prisma.FieldRef<"OrderItem", 'Float'>
-  readonly size: Prisma.FieldRef<"OrderItem", 'Size'>
+  readonly siteConfig: Prisma.FieldRef<"OrderItem", 'Json'>
+  readonly deploymentStatus: Prisma.FieldRef<"OrderItem", 'DeploymentStatus'>
+  readonly deploymentUrl: Prisma.FieldRef<"OrderItem", 'String'>
+  readonly subdomain: Prisma.FieldRef<"OrderItem", 'String'>
+  readonly deployedAt: Prisma.FieldRef<"OrderItem", 'DateTime'>
   readonly orderId: Prisma.FieldRef<"OrderItem", 'String'>
   readonly productId: Prisma.FieldRef<"OrderItem", 'String'>
 }

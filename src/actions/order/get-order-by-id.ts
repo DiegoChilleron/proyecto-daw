@@ -27,7 +27,10 @@ export const getOrderById = async (id: string) => {
                     select: {
                         price: true,
                         quantity: true,
-                        size: true,
+                        siteConfig: true,
+                        deploymentStatus: true,
+                        deploymentUrl: true,
+                        subdomain: true,
 
                         product: {
                             select: {

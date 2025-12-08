@@ -53,18 +53,18 @@ export const useCartStore = create<State>()(
             addProductToCart: (product: CartProduct) => {
                 const { cart } = get();
 
-                // 1. Revisar si el producto ya existe en el carrito con la misma talla
-                const productInCart = cart.some((item) => (item.id === product.id && item.size === product.size));
+                // 1. Revisar si el producto ya existe en el carrito
+                const productInCart = cart.some((item) => item.id === product.id);
 
                 if (!productInCart) {
                     set({ cart: [...cart, product] });
                     return;
                 }
 
-                // 2. Si existe, aumentar la cantidad
+                // 2. Si existe, actualizar la configuración (reemplazar)
                 const updatedCartProducts = cart.map((item) => {
-                    if (item.id === product.id && item.size === product.size) {
-                        return { ...item, quantity: item.quantity + product.quantity };
+                    if (item.id === product.id) {
+                        return { ...item, ...product };
                     }
                     return item;
                 });
@@ -77,7 +77,7 @@ export const useCartStore = create<State>()(
                 const { cart } = get();
 
                 const updatedCartProducts = cart.map((item) => {
-                    if (item.id === product.id && item.size === product.size) {
+                    if (item.id === product.id) {
                         return { ...item, quantity };
                     }
                     return item;
@@ -88,7 +88,7 @@ export const useCartStore = create<State>()(
             // Elimina un producto del carrito
             removeProduct: (product: CartProduct) => {
                 const { cart } = get();
-                const updatedCartProducts = cart.filter((item) => (item.id !== product.id || item.size !== product.size));
+                const updatedCartProducts = cart.filter((item) => item.id !== product.id);
                 set({ cart: updatedCartProducts });
             },
 

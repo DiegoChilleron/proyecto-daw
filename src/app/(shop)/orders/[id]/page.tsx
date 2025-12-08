@@ -33,7 +33,7 @@ export default async function OrdersByIdPage({ params }: Props) {
             {/* Items */}
             {
               order!.orderItems.map(item => (
-                <div key={item.product.slug + '-' + item.size} className="flex mb-5">
+                <div key={item.product.slug} className="flex mb-5">
                   <Image src={`/products/${item.product.productImages[0].url}`} alt={item.product.title} width={100} height={100} className="mr-5 rounded w-[100px] h-[100px]" />
                   <div>
                     <p>{item.product.title}</p>
