@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/* Sidebar */
+
+.sidebar__link {
+    @apply flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all;
+}
+
+.sidebar__link-span {
+    @apply ml-3 text-xl;
+}
+
+/* Paginacion */
+
+.pagination {
+    @apply flex text-center justify-center mt-10 mb-32
+}
+
+.pagination__link {
+    @apply relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none;
+}
+
+.pagination__link--active {
+    @apply bg-gray-600 text-white hover:text-white hover:bg-gray-500 shadow-md focus:shadow-md;
+}
+
+
+/* Footer */
+
+footer {
+    @apply flex w-full justify-center text-xs pb-8 pt-18 bg-gray-50;
+}
