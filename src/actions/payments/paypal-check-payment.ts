@@ -3,6 +3,7 @@
 import { PayPalOrderStatusResponse } from "@/interfaces";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { deployOrderWebsites } from "../deploy/deploy-website";
 
 export const paypalCheckPayment = async (paypalTransactionId: string) => {
 
@@ -41,6 +42,13 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
             data: { isPaid: true, paidAt: new Date() }
         });
 
+        // Iniciar el despliegue de las webs de la orden
+        // Se ejecuta en segundo plano para no bloquear la respuesta
+        deployOrderWebsites(orderId).then((results) => {
+            console.log(`[PayPal] Despliegue completado para orden ${orderId}:`, results);
+        }).catch((error) => {
+            console.error(`[PayPal] Error en despliegue para orden ${orderId}:`, error);
+        });
 
         revalidatePath(`/orders/${orderId}`);
 

@@ -1,8 +1,8 @@
-import { Title, PayPalButton, OrderStatus } from "@/components";
-import Image from "next/image";
+import { Title, PayPalButton, OrderStatus, ProductImage } from "@/components";
 import { getOrderById } from "@/actions/order/get-order-by-id";
 import { redirect } from "next/navigation";
 import { currencyFormat } from "@/utils";
+import { DeploymentStatusBadge } from "./ui/DeploymentStatusBadge";
 
 
 interface Props {
@@ -33,12 +33,26 @@ export default async function OrdersByIdPage({ params }: Props) {
             {/* Items */}
             {
               order!.orderItems.map(item => (
-                <div key={item.product.slug} className="flex mb-5">
-                  <Image src={`/products/${item.product.productImages[0].url}`} alt={item.product.title} width={100} height={100} className="mr-5 rounded w-[100px] h-[100px]" />
-                  <div>
-                    <p>{item.product.title}</p>
-                    <p>{currencyFormat(item.price)} x {item.quantity}</p>
+                <div key={item.product.slug} className="flex mb-5 p-4 bg-gray-50 rounded-lg">
+                  <ProductImage 
+                    src={item.product.productImages[0]?.url} 
+                    alt={item.product.title} 
+                    width={100} 
+                    height={100} 
+                    className="mr-5 rounded w-[100px] h-[100px] object-cover" 
+                  />
+                  <div className="flex-1">
+                    <p className="font-semibold">{item.product.title}</p>
+                    <p className="text-sm text-gray-600">{currencyFormat(item.price)} x {item.quantity}</p>
                     <p className="font-bold">Subtotal: {currencyFormat(item.price * item.quantity)}</p>
+                    
+                    {/* Estado del despliegue */}
+                    <div className="mt-2">
+                      <DeploymentStatusBadge 
+                        status={item.deploymentStatus} 
+                        deploymentUrl={item.deploymentUrl}
+                      />
+                    </div>
                   </div>
                 </div>
               ))
