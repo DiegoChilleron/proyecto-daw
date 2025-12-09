@@ -6,13 +6,13 @@ export const Footer = () => {
 
         <footer>
             <Link href="/">
-                <span className={`${titleFont.className} antialiased font-bold`}>Diego </span>
+                <span className={`${titleFont.className} footer__logo`}>Diego </span>
                 <span>| Shop</span>
                 <span>© {new Date().getFullYear()}</span>
             </Link>
 
-            <Link href="/legal/legal-notice" className="mx-3">Política Legal & Privacidad</Link>
-            <Link href="/legal/cookies-policy" className="mx-3">Política de Cookies</Link>
+            <Link href="/legal/legal-notice" className="footer__link">Política Legal & Privacidad</Link>
+            <Link href="/legal/cookies-policy" className="footer__link">Política de Cookies</Link>
 
         </footer>
     )

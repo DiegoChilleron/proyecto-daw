@@ -17,9 +17,9 @@ export const PayPalButton = ({ orderId, amount }: Props) => {
 
     if (isPending) {
         return (
-            <div className="animate-pulse mb-16">
-                <div className="h-11 bg-gray-300 rounded" />
-                <div className="h-11 bg-gray-300 rounded mt-2" />
+            <div className="paypal-button__skeleton">
+                <div className="paypal-button__skeleton-bar" />
+                <div className="paypal-button__skeleton-bar paypal-button__skeleton-bar--second" />
             </div>
         );
     }
@@ -57,7 +57,7 @@ export const PayPalButton = ({ orderId, amount }: Props) => {
     };
 
     return (
-        <div className="relative z-0">
+        <div className="paypal-button">
             <PayPalButtons
                 createOrder={createOrder}
                 onApprove={onApprove}

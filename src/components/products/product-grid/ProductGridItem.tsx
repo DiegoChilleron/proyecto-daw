@@ -11,28 +11,28 @@ export const ProductGridItem = ({ product }: Props) => {
 
     return (
 
-        <div className="rounded-md overflow-hidden fade-in group">
+        <div className="product-grid__item">
 
             <Link href={`/product/${product.slug}`}>
 
                 <ProductImage 
                     src={product.images[0]}
                     alt={product.title}
-                    className="w-full object-cover rounded group-hover:hidden"
+                    className="product-grid__image product-grid__image--default"
                     width={500}
                     height={500} />
 
                 <ProductImage 
                     src={product.images[1] || product.images[0]}
                     alt={product.title}
-                    className="w-full object-cover rounded group-hover:block hidden"
+                    className="product-grid__image product-grid__image--hover"
                     width={500}
                     height={500} />
             </Link>
 
-            <div className="p-4 flex flex-col">
-                <Link className="hover:text-blue-600" href={`/product/${product.slug}`}>{product.title}</Link>
-                <span className="font-bold">{product.price} €</span>
+            <div className="product-grid__info">
+                <Link className="product-grid__title" href={`/product/${product.slug}`}>{product.title}</Link>
+                <span className="product-grid__price">{product.price} €</span>
             </div>
 
         </div>

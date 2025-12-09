@@ -20,24 +20,24 @@ export const Sidebar = () => {
         <div>
 
             {
-                isSideMenuOpen && (<div onClick={closeMenu} className="fixed top-0 left-0 w-screen h-screen z-10 bg-black/30 backdrop-filter backdrop-blur-sm fade-in" />)
+                isSideMenuOpen && (<div onClick={closeMenu} className="sidebar__overlay" />)
             }
 
-            <nav className={clsx("fixed z-20 p-5 right-0 top-0 w-[500px] h-screen bg-white shadow-2xl transform transition-all duration-300)",
+            <nav className={clsx("sidebar__nav",
                 {
-                    "translate-x-0": isSideMenuOpen,
-                    "translate-x-full": !isSideMenuOpen,
+                    "sidebar__nav--open": isSideMenuOpen,
+                    "sidebar__nav--closed": !isSideMenuOpen,
                 }
             )}>
-                <IoCloseOutline size={50} className="absolute top-5 right-5 cursor-pointer" />
+                <IoCloseOutline size={50} className="sidebar__close" />
 
-                <div className="relative mt-14">
-                    <IoSearchOutline size={20} className="absolute top-2 left-2" />
+                <div className="sidebar__search">
+                    <IoSearchOutline size={20} className="sidebar__search-icon" />
 
                     <input
                         type="text"
                         placeholder="Buscar"
-                        className="w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
+                        className="sidebar__search-input"
                     />
 
                 </div>
@@ -78,7 +78,7 @@ export const Sidebar = () => {
 
                 {isAdmin && (
                 <>
-                <div className="w-full h-px bg-gray-200 my-10"></div>
+                <div className="sidebar__divider"></div>
 
                 <Link href="/admin" className="sidebar__link" onClick={closeMenu}>
                     <IoGridOutline size={30} />

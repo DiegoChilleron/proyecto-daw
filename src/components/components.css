@@ -1,6 +1,80 @@
 @import "tailwindcss";
 
-/* Sidebar */
+/* ================================
+   TOP MENU
+   ================================ */
+
+.top-menu {
+    @apply flex px-5 justify-between items-center w-full;
+}
+
+.top-menu__logo {
+    @apply antialiased font-bold;
+}
+
+.top-menu__nav {
+    @apply hidden sm:block;
+}
+
+.top-menu__nav-link {
+    @apply m-2 p-2 rounded-md transition-all hover:bg-gray-100;
+}
+
+.top-menu__actions {
+    @apply flex items-center gap-x-4;
+}
+
+.top-menu__icon {
+    @apply w-5 h-5;
+}
+
+.top-menu__cart {
+    @apply relative;
+}
+
+.top-menu__cart-badge {
+    @apply fade-in absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-blue-700 text-white;
+}
+
+.top-menu__button {
+    @apply m-2 p-2 rounded-md transition-all hover:bg-gray-100;
+}
+
+/* ================================
+   SIDEBAR
+   ================================ */
+
+.sidebar__overlay {
+    @apply fixed top-0 left-0 w-screen h-screen z-10 bg-black/30 backdrop-filter backdrop-blur-sm fade-in;
+}
+
+.sidebar__nav {
+    @apply fixed z-20 p-5 right-0 top-0 w-[500px] h-screen bg-white shadow-2xl transform transition-all duration-300;
+}
+
+.sidebar__nav--open {
+    @apply translate-x-0;
+}
+
+.sidebar__nav--closed {
+    @apply translate-x-full;
+}
+
+.sidebar__close {
+    @apply absolute top-5 right-5 cursor-pointer;
+}
+
+.sidebar__search {
+    @apply relative mt-14;
+}
+
+.sidebar__search-icon {
+    @apply absolute top-2 left-2;
+}
+
+.sidebar__search-input {
+    @apply w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500;
+}
 
 .sidebar__link {
     @apply flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all;
@@ -10,10 +84,52 @@
     @apply ml-3 text-xl;
 }
 
-/* Paginacion */
+.sidebar__divider {
+    @apply w-full h-px bg-gray-200 my-10;
+}
+
+/* ================================
+   FOOTER
+   ================================ */
+
+footer {
+    @apply flex w-full justify-center text-xs pb-8 pt-18 bg-gray-50;
+}
+
+.footer__logo {
+    @apply antialiased font-bold;
+}
+
+.footer__link {
+    @apply mx-3;
+}
+
+/* ================================
+   TITLE
+   ================================ */
+
+.title {
+    @apply mt-3;
+}
+
+.title__heading {
+    @apply antialiased text-4xl font-semibold my-7;
+}
+
+.title__subtitle {
+    @apply text-xl mb-5;
+}
+
+/* ================================
+   PAGINATION
+   ================================ */
 
 .pagination {
-    @apply flex text-center justify-center mt-10 mb-32
+    @apply flex text-center justify-center mt-10 mb-32;
+}
+
+.pagination__list {
+    @apply flex;
 }
 
 .pagination__link {
@@ -24,9 +140,150 @@
     @apply bg-gray-600 text-white hover:text-white hover:bg-gray-500 shadow-md focus:shadow-md;
 }
 
+/* ================================
+   NOT FOUND
+   ================================ */
 
-/* Footer */
+.not-found {
+    @apply flex flex-col-reverse md:flex-row h-[800px] w-full justify-center items-center align-middle;
+}
 
-footer {
-    @apply flex w-full justify-center text-xs pb-8 pt-18 bg-gray-50;
+.not-found__content {
+    @apply text-center px-5 mx-5;
+}
+
+.not-found__title {
+    @apply antialiased text-9xl;
+}
+
+.not-found__text {
+    @apply font-semibold text-xl;
+}
+
+.not-found__link {
+    @apply font-normal hover:underline transition-all;
+}
+
+.not-found__image-container {
+    @apply px-5 mx-5;
+}
+
+.not-found__image {
+    @apply p-5 sm:p-0;
+}
+
+/* ================================
+   PRODUCT GRID
+   ================================ */
+
+.product-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 gap-10 mb-10;
+}
+
+.product-grid__item {
+    @apply rounded-md overflow-hidden fade-in group;
+}
+
+.product-grid__image {
+    @apply w-full object-cover rounded;
+}
+
+.product-grid__image--default {
+    @apply group-hover:hidden;
+}
+
+.product-grid__image--hover {
+    @apply group-hover:block hidden;
+}
+
+.product-grid__info {
+    @apply p-4 flex flex-col;
+}
+
+.product-grid__title {
+    @apply hover:text-blue-600;
+}
+
+.product-grid__price {
+    @apply font-bold;
+}
+
+/* ================================
+   QUANTITY SELECTOR
+   ================================ */
+
+.quantity-selector {
+    @apply flex;
+}
+
+.quantity-selector__button {
+    @apply cursor-pointer;
+}
+
+.quantity-selector__value {
+    @apply w-20 mx-3 px-5 bg-gray-100 text-center rounded;
+}
+
+/* ================================
+   ORDER STATUS
+   ================================ */
+
+.order-status {
+    @apply flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5;
+}
+
+.order-status--paid {
+    @apply bg-green-500;
+}
+
+.order-status--pending {
+    @apply bg-red-500;
+}
+
+.order-status__text {
+    @apply mx-2;
+}
+
+/* ================================
+   PAYPAL BUTTON
+   ================================ */
+
+.paypal-button {
+    @apply relative z-0;
+}
+
+.paypal-button__skeleton {
+    @apply animate-pulse mb-16;
+}
+
+.paypal-button__skeleton-bar {
+    @apply h-11 bg-gray-300 rounded;
+}
+
+.paypal-button__skeleton-bar--second {
+    @apply mt-2;
+}
+
+/* ================================
+   PRODUCT SLIDESHOW
+   ================================ */
+
+.product-slideshow__main {
+    @apply w-full h-auto rounded-lg;
+}
+
+.product-slideshow__thumbs {
+    @apply w-full h-[20%] box-border my-6;
+}
+
+.product-slideshow__image {
+    @apply rounded-lg object-cover w-full h-full;
+}
+
+.product-slideshow-mobile {
+    @apply w-full h-[500px];
+}
+
+.product-slideshow-mobile__image {
+    @apply object-cover w-full h-full;
 }

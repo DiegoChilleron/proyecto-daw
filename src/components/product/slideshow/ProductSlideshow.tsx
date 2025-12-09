@@ -43,13 +43,13 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
                     swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null
                 }}
                 modules={[FreeMode, Navigation, Thumbs, Autoplay]}
-                className="w-full h-auto rounded-lg"
+                className="product-slideshow__main"
             >
 
                 {
                     images.map(image => (
                         <SwiperSlide key={image}>
-                            <ProductImage width={1024} height={800} src={image} alt={title} className="rounded-lg object-cover w-full h-full" />
+                            <ProductImage width={1024} height={800} src={image} alt={title} className="product-slideshow__image" />
                         </SwiperSlide>
                     ))
                 }
@@ -63,12 +63,12 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
                 freeMode={true}
                 watchSlidesProgress={true}
                 modules={[FreeMode, Navigation, Thumbs]}
-                className="w-full h-[20%] box-border my-6 [&_.swiper-slide]:opacity-40 [&_.swiper-slide-thumb-active]:opacity-100"
+                className="product-slideshow__thumbs [&_.swiper-slide]:opacity-40 [&_.swiper-slide-thumb-active]:opacity-100"
             >
                 {
                     images.map(image => (
                         <SwiperSlide key={image}>
-                            <ProductImage width={300} height={300} src={image} alt={title} className="rounded-lg object-cover w-full h-full" />
+                            <ProductImage width={300} height={300} src={image} alt={title} className="product-slideshow__image" />
                         </SwiperSlide>
                     ))
                 }

@@ -28,12 +28,12 @@ export const ProductMobileSlideshow = ({ images, title, className }: Props) => {
                 }}
 
                 modules={[FreeMode, Autoplay, Pagination]}
-                className="w-full h-[500px]"
+                className="product-slideshow-mobile"
             >
                 {
                     images.map(image => (
                         <SwiperSlide key={image}>
-                            <Image width={600} height={500} src={`/products/${image}`} alt={title} className="object-cover w-full h-full" />
+                            <Image width={600} height={500} src={`/products/${image}`} alt={title} className="product-slideshow-mobile__image" />
                         </SwiperSlide>
                     ))
                 }
