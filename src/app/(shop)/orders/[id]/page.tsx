@@ -3,6 +3,7 @@ import { getOrderById } from "@/actions/order/get-order-by-id";
 import { redirect } from "next/navigation";
 import { currencyFormat } from "@/utils";
 import { DeploymentStatusBadge } from "./ui/DeploymentStatusBadge";
+import { DeploymentActions } from "./ui/DeploymentActions";
 
 
 interface Props {
@@ -51,6 +52,11 @@ export default async function OrdersByIdPage({ params }: Props) {
                       <DeploymentStatusBadge 
                         status={item.deploymentStatus} 
                         deploymentUrl={item.deploymentUrl}
+                      />
+                      <DeploymentActions
+                        orderItemId={item.id}
+                        status={item.deploymentStatus}
+                        isPaid={order?.isPaid ?? false}
                       />
                     </div>
                   </div>

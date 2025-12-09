@@ -25,6 +25,7 @@ export const getOrderById = async (id: string) => {
                 orderAddress: true,
                 orderItems: {
                     select: {
+                        id: true,
                         price: true,
                         quantity: true,
                         siteConfig: true,
