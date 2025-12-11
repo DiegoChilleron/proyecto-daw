@@ -47,10 +47,7 @@ export async function deployWebsite(orderItemId: string): Promise<DeployResult> 
             orderItem.id
         );
 
-        // 3. Actualizar estado a "building"
-        await updateDeploymentStatus(orderItemId, 'building', undefined, subdomain);
-
-        // 4. Buscar el template fuente
+        // 3. Buscar el template fuente
         const sourceDir = await findTemplateSource(templateType, templateSlug);
         
         if (!sourceDir) {
@@ -67,10 +64,7 @@ export async function deployWebsite(orderItemId: string): Promise<DeployResult> 
         // 7. Compilar el proyecto
         await buildProject(buildDir);
 
-        // 8. Actualizar estado a "deploying"
-        await updateDeploymentStatus(orderItemId, 'deploying');
-
-        // 9. Obtener directorio de salida
+        // 8. Obtener directorio de salida
         const outDir = await getOutputDirectory(buildDir);
         
         if (!outDir) {
@@ -81,17 +75,17 @@ export async function deployWebsite(orderItemId: string): Promise<DeployResult> 
             };
         }
 
-        // 10. Subir a S3
+        // 9. Subir a S3
         console.log(`[Deploy] Subiendo a S3: ${subdomain}`);
         await uploadDirToS3(outDir, subdomain);
 
-        // 11. Generar URL final
+        // 10. Generar URL final
         const finalUrl = generateDeploymentUrl(subdomain);
 
-        // 12. Actualizar estado a "deployed"
+        // 11. Actualizar estado a "deployed"
         await updateDeploymentStatus(orderItemId, 'deployed', finalUrl, subdomain);
 
-        // 13. Limpiar directorio de build (opcional)
+        // 12. Limpiar directorio de build (opcional)
         // await removeDir(buildDir);
 
         console.log(`[Deploy] ✅ Desplegado exitosamente: ${finalUrl}`);

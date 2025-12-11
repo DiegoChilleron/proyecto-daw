@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IoCloudDone, IoTime, IoConstruct, IoCloudUpload, IoWarning } from "react-icons/io5";
+import { IoCloudDone, IoTime, IoWarning } from "react-icons/io5";
 
 interface Props {
     status: string;
@@ -8,19 +8,9 @@ interface Props {
 
 const statusConfig: Record<string, { label: string; icon: React.ReactNode; className: string }> = {
     pending: {
-        label: 'Pendiente de pago',
+        label: 'Pendiente',
         icon: <IoTime className="w-4 h-4" />,
         className: 'bg-gray-100 text-gray-700',
-    },
-    building: {
-        label: 'Compilando...',
-        icon: <IoConstruct className="w-4 h-4 animate-pulse" />,
-        className: 'bg-yellow-100 text-yellow-700',
-    },
-    deploying: {
-        label: 'Desplegando...',
-        icon: <IoCloudUpload className="w-4 h-4 animate-bounce" />,
-        className: 'bg-blue-100 text-blue-700',
     },
     deployed: {
         label: 'Desplegado',

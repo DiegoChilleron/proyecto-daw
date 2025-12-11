@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 
-export type DeploymentStatusType = 'pending' | 'building' | 'deploying' | 'deployed' | 'failed';
+export type DeploymentStatusType = 'pending' | 'deployed' | 'failed';
 
 /**
  * Actualiza el estado del despliegue en la base de datos

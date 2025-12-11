@@ -23,9 +23,7 @@ enum TemplateType {
 }
 
 enum DeploymentStatus {
-  pending      // Pendiente de pago
-  building     // Compilando Next.js
-  deploying    // Desplegando a S3
+  pending      // Pendiente
   deployed     // Desplegado correctamente
   failed       // Error en el proceso
 }

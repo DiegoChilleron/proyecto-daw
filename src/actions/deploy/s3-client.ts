@@ -44,13 +44,9 @@ export async function uploadDirToS3(localDir: string, s3Prefix: string): Promise
 
 /**
  * Genera la URL final del despliegue
+ * Formato: https://{subdomain}.{DEPLOY_DOMAIN}
  */
 export function generateDeploymentUrl(subdomain: string): string {
-    const deploymentUrl = `https://${S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${subdomain}/index.html`;
-    
-    // Si tienes CloudFront configurado, usar esa URL
-    const cloudfrontDomain = process.env.CLOUDFRONT_DOMAIN;
-    return cloudfrontDomain 
-        ? `https://${cloudfrontDomain}/${subdomain}`
-        : deploymentUrl;
+    const deployDomain = process.env.DEPLOY_DOMAIN || 'dominioprincipal.org';
+    return `https://${subdomain}.${deployDomain}`;
 }

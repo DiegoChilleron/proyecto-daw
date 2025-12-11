@@ -60,15 +60,6 @@ export const DeploymentActions = ({ orderItemId, status, isPaid }: Props) => {
     // Solo mostrar acciones si la orden está pagada
     if (!isPaid) return null;
 
-    // No mostrar acciones mientras se está compilando o desplegando
-    if (status === 'building' || status === 'deploying') {
-        return (
-            <p className="text-xs text-gray-500 mt-2">
-                Procesando... Por favor espera.
-            </p>
-        );
-    }
-
     return (
         <div className="mt-3 flex flex-col gap-2">
             {error && (
